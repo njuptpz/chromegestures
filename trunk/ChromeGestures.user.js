@@ -17,7 +17,7 @@
 //  |       - Do not use the same Gesture for two Actions.                                                                                          |
 //  |                                                                                                                                               |
 //   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-//
+// Test
 // In case of doubt, drop by the forums on chromeplugins.org and ask. We'll answer ;)
 var us = (typeof(chrome.extension) == "undefined") //DO NOT EDIT
 var gesturesHelp = new Array(); //DO NOT EDIT
