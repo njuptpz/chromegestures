@@ -29,14 +29,14 @@ var blankTabGesture         = ["down","right","down"];
 var closeTabGesture         = ["down","left"];
 var historyBackGesture      = ["left"];
 var historyForwardGesture   = ["right"];
-var hidePageGesture   		= ["click","click"];
-var refreshGesture			= ["right","down","left","up","right"];
-var refreshGesture2			= ["up","right","down","left","up"];
-var refreshGesture3			= ["up","right","down","left","up","right"];
+var hidePageGesture         = ["click","click"];
+var refreshGesture          = ["right","down","left","up","right"];
+var refreshGesture2         = ["up","right","down","left","up"];
+var refreshGesture3         = ["up","right","down","left","up","right"];
 var helpGesture             = ["up","right","down","left","down"];
 if(!us)var optionsGesture   = ["up","down"];
 
-var newTabURL				= "http://google.com"; // [Kryptyx] Change the default URL for a newTabGesture
+var newTabURL               = "http://google.com"; // [Kryptyx] Change the default URL for a newTabGesture
 
 // [Kyrax] TODO: Support for Chrome API
 function  newTabAction() {
