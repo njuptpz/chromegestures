@@ -1,0 +1,25 @@
+/* Default styles for Slider Lib */
+.sliderbar {
+	background-image: url(scrollbar.png);
+	background-repeat: repeat-x;
+	width: 200px;
+	height: 10px;
+	display: inline-block;
+}
+
+.slider{
+	display: inline-block;
+	background-image: url(scroll.png);
+	min-width: 10px;
+	height: 10px;
+	background-repeat: no-repeat;
+	padding-left: 11px;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FF0000;
+	vertical-align: super;
+	position: relative;
+	cursor:pointer; /* Kryptyx was here */
+	top: 0px; /* THIS IS FIXED */
+	left: 0px;
+}
