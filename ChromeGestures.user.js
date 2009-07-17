@@ -29,14 +29,15 @@ var blankTabGesture         = ["down","right","down"];
 var closeTabGesture         = ["down","left"];
 var historyBackGesture      = ["left"];
 var historyForwardGesture   = ["right"];
-var hidePageGesture         = ["click","click"];
-var refreshGesture          = ["right","down","left","up","right"];
-var refreshGesture2         = ["up","right","down","left","up"];
-var refreshGesture3         = ["up","right","down","left","up","right"];
+var hidePageGesture   		= ["click","click"];
+var refreshGesture			= ["right","down","left","up","right"];
+var refreshGesture2			= ["up","right","down","left","up"];
+var refreshGesture3			= ["up","right","down","left","up","right"];
 var helpGesture             = ["up","right","down","left","down"];
 if(!us)var optionsGesture   = ["up","down"];
+var searchGesture           = ["up"];
 
-var newTabURL               = "http://google.com"; // [Kryptyx] Change the default URL for a newTabGesture
+var newTabURL				= "http://google.com"; // [Kryptyx] Change the default URL for a newTabGesture
 
 // [Kyrax] TODO: Support for Chrome API
 function  newTabAction() {
@@ -134,6 +135,34 @@ function helpAction(){
 		tc.stroke();
 	}
 }
+function isURL(str) {
+	var regexp = /(http:\/\/|w{3}\.)(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+	return regexp.test(str);
+}
+function searchAction()
+{
+	var selectedTxt = '';
+	if (window.getSelection){
+		selectedTxt = window.getSelection().toString();
+	}
+	else if (document.getSelection){
+		selectedTxt = document.getSelection().toString();
+	}
+	else if (document.selection){
+		selectedTxt = document.selection.createRange().text.toString();
+	}
+	if (selectedTxt==''){
+		return;
+	} else {
+		if (isURL(selectedTxt)){
+			selectedTxt=selectedTxt.replace(/^http:\/\//, "");
+			window.open("http://"+selectedTxt);
+		} else {
+			var searchString=selectedTxt.replace(/ /g, "+");
+			window.open("http://www.google.com/search?q="+searchString);
+		}
+	}
+}
 
 var myGestures = [];
 
@@ -148,6 +177,7 @@ myGestures[refreshGesture2]			= refreshAction;
 myGestures[refreshGesture3]			= refreshAction;
 if(!us)myGestures[optionsGesture]	= optionsAction;
 myGestures[helpGesture]				= helpAction;
+myGestures[searchGesture]           = searchAction;
 /* [Waha]
 Register to be in the Help File.
 Supply with ID, Description, Starting X position in drawing, Starting Y position in drawing, and the offsets in pixels from the last point according to the gestures
@@ -231,14 +261,13 @@ if(!us){
 		"menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
 }
 */
-
 function showGesture(move){
 	if (!document.getElementById("ChromeGestureBox")){
 		gestureDiv = document.createElement('div');
 		gestureDiv.id = "ChromeGestureBox";
 		gestureDiv.className = "gesture_"+move;
 		document.body.appendChild(gestureDiv);
-	} else {		
+	} else {
 		document.getElementById("ChromeGestureBox").className="gesture_"+move;
 	}
 }
