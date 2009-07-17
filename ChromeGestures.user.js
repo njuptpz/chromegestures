@@ -17,10 +17,12 @@
 //  |       - Do not use the same Gesture for two Actions.                                                                                          |
 //  |                                                                                                                                               |
 //   ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯
-// Test
+// 
+//  AUTHORS: Kyrax, Waha, Kryptyx
+//
 // In case of doubt, drop by the forums on chromeplugins.org and ask. We'll answer ;)
-var us = (typeof(chrome.extension) == "undefined") //DO NOT EDIT
-var gesturesHelp = new Array(); //DO NOT EDIT
+var us = (typeof(chrome.extension) == "undefined") // [Waha] DO NOT EDIT
+var gesturesHelp = new Array(); // [Waha] DO NOT EDIT
 // ============ BEGIN STUFF YOU CAN (AND SHOULD) EDIT ============
 var newTabGesture           = ["down","right"];
 var blankTabGesture         = ["down","right","down"];
@@ -34,9 +36,9 @@ var refreshGesture3			= ["up","right","down","left","up","right"];
 var helpGesture             = ["up","right","down","left","down"];
 if(!us)var optionsGesture   = ["up","down"];
 
-var newTabURL				= "http://google.com"; // Change the default URL for a newTabGesture
+var newTabURL				= "http://google.com"; // [Kryptyx] Change the default URL for a newTabGesture
 
-// TODO: Support for Chrome API
+// [Kyrax] TODO: Support for Chrome API
 function  newTabAction() {
 	window.open(newTabURL);
 }
@@ -95,7 +97,7 @@ function helpAction(){
 		"<table id=\"tbl\" style=\"border:2px solid #000000;width:100%;\"></table></body></html>");
 	var tbl = win.document.getElementById("tbl");
 	for(var i in gesturesHelp){
-		//Add entry to file
+		// [Waha] Add entry to file
 		var g = "",len=gesturesHelp[i].g.length;
 		for(var j=0;j<len;j++){
 			g += gesturesHelp[i].g[j].substr(0,1).toUpperCase()+gesturesHelp[i].g[j].substr(1);
@@ -107,8 +109,8 @@ function helpAction(){
 			"<td style=\"height:76px;vertical-align:top;"+moar+"\">"+gesturesHelp[i].d+"</td></tr>"+
 			"<tr><td style=\"border-top:2px solid #000000;height:20px;\"><b>"+g+"</b></td></tr>";
 	}
-	//Aw come on..two seperate loops? really? D:
-	//I had to do this cause adjusting the table's innerHTML was removing the canvas content..
+	/* [Waha] Aw come on..two seperate loops? really? D:
+	I had to do this cause adjusting the table's innerHTML was removing the canvas content...*/
 	for(var i in gesturesHelp){
 		//Draw gesture
 		var tc = win.document.getElementById("ges"+i).getContext('2d');
@@ -124,7 +126,7 @@ function helpAction(){
 			//var c = "black"; if(j == 0)c = "red";
 			if(nx == "c"){
 				tc.arc(lastx,lasty,ny,0,Math.PI*2,true);
-			}else{
+			} else {
 				tc.lineTo(nx,ny);
 				lastx = nx; lasty = ny;
 			}
@@ -146,11 +148,12 @@ myGestures[refreshGesture2]			= refreshAction;
 myGestures[refreshGesture3]			= refreshAction;
 if(!us)myGestures[optionsGesture]	= optionsAction;
 myGestures[helpGesture]				= helpAction;
-
-//Register to be in the Help File.
-//Supply with ID, Description, Starting X position in drawing, Starting Y position in drawing, and the offsets in pixels from the last point according to the gestures
-//If the gesture is a click, you supply the radius of the circle instead.
-//You are limited to a 100x100 pixel canvas
+/* [Waha]
+Register to be in the Help File.
+Supply with ID, Description, Starting X position in drawing, Starting Y position in drawing, and the offsets in pixels from the last point according to the gestures
+If the gesture is a click, you supply the radius of the circle instead.
+You are limited to a 100x100 pixel canvas
+*/
 registerForHelp(newTabGesture,"Open a new tab. You can set the homepage in options.",20,20,60,60);
 registerForHelp(blankTabGesture,"Open a blank tab.",35,20,30,30,30);
 registerForHelp(closeTabGesture,"Closes the current tab.",80,20,60,60);
@@ -161,11 +164,15 @@ registerForHelp(refreshGesture,"Refreshes the current page.<br/>Can also start w
 if(!us)registerForHelp(optionsGesture,"Opens the Chrome Gestures options.",50,70,50,60);
 registerForHelp(helpGesture,"Opens the Chrome Gestures help file (this).",20,50,30,60,30,30,30);
 
-// ============ UNLESS YOU KNOW WHAT YOU ARE DOING, DON'T EDIT PAST HERE :) ============
+// ============ UNLESS YOU KNOW WHAT YOU ARE DOING, DON'T EDIT PAST HERE ============
 
-
-
+var clickPast;
+var clickNow;
+var clickDiff;
+var wind;
+var alpha=1.0;
 var logging = false;
+
 function log(txt){if(logging){console.log(txt);}}
 function warn(txt){if(logging){console.warn(txt);}}
 function error(txt){if(logging){console.error(txt);}}
@@ -202,29 +209,28 @@ function getData(ntpurl,delta,captime,clickto){
 	ChromeGesture.DELAY_BETWEEN_CAPTURES = captime;
 	ChromeGesture.CLICK_TIMEOUT = clickto;
 	if(contentWindow.CHROMEGESTURES_loadData){
-		//wind.close();
-		//contentWindow.CHROMEGESTURES_loadData = false
-		//wind = null;
+		/* [Waha]
+		wind.close();
+		contentWindow.CHROMEGESTURES_loadData = false
+		wind = null;
+		*/
 	}
 }
 if(!us)contentWindow.CHROMEGESTURES_setData = getData;
 
 // LOAD SAVED DATA
-// (Waha) This is a hack to get around the current broken communication system.
+// [Waha] This is a hack to get around the current broken communication system.
 // Once this is fixed, we can implement a background page to handle the loading instead
 // then it can also update all currently active background scripts rather than forcing the user to reload tabs after changes.
-var wind;
-if(!us){
-	//contentWindow.CHROMEGESTURES_loadData = true;
-	//Commenting this to prevent popup -Kryptyx
-	/*wind = window.open("chrome-extension://"+chrome.extension.id_+"/options.html","_blank",
-		"directories=no,height=1,width=1,left=-100,top=-100,location=no,"+
-		"menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");*/
-}
 
-// SHOW GESTURE
-// (Kryptyx) This is to be built upon more in the future. This is the how the gestures will be displayed to the user as they
-// perform a new gesture.
+/* [Kryptyx] Disabled this block to prevent popup.
+if(!us){
+	contentWindow.CHROMEGESTURES_loadData = true;
+	wind = window.open("chrome-extension://"+chrome.extension.id_+"/options.html","_blank",
+		"directories=no,height=1,width=1,left=-100,top=-100,location=no,"+
+		"menubar=no,scrollbars=no,status=no,titlebar=no,toolbar=no");
+}
+*/
 
 function showGesture(move){
 	if (!document.getElementById("ChromeGestureBox")){
@@ -232,60 +238,31 @@ function showGesture(move){
 		gestureDiv.id = "ChromeGestureBox";
 		gestureDiv.className = "gesture_"+move;
 		document.body.appendChild(gestureDiv);
-	}else{		
+	} else {		
 		document.getElementById("ChromeGestureBox").className="gesture_"+move;
 	}
 }
+
 function hideGesture(){
-	document.getElementById("ChromeGestureBox").className="gesture_hide";
-}
-
-
-/* Old Way... boy was I overthinking this, I'm keeping this code for possible future use.
-var newDiv;
-var direction = new Array();
-direction[1] = "left";
-direction[2] = "right";
-direction[3] = "up";
-direction[4] = "down";
-function showGesture(move){
-	for (var i = 1; i < 5; i++){
-		if (direction[i]==move){continue;}
-		var gest = document.getElementById("ChromeGesture_"+direction[i]);
-		if (gest){gest.style.display="none";}
-	}
-	
-	if (!document.getElementById("ChromeGesture_"+move)){
-		newDiv = document.createElement('div');
-		newDiv.id = "ChromeGesture_"+move;
-		document.body.appendChild(newDiv);
-	}else{		
-		document.getElementById("ChromeGesture_"+move).style.display='block';
+	if(alpha>0){
+		alpha-=.1;
+		document.getElementById("ChromeGestureBox").style.opacity=alpha;
+		setTimeout(function(){hideGesture();},40); 
+	} else {
+		alpha=1.0;
+		document.getElementById("ChromeGestureBox").style.opacity=alpha;
+		document.getElementById("ChromeGestureBox").className="gesture_hide";
 	}
 }
-function hideGesture(){
-	for (var i = 1; i < 5; i++){
-		var gest = document.getElementById("ChromeGesture_"+direction[i]);
-		if (gest){gest.style.display="none";}
-	}
-}
-*/
-
-
 
 // CONSTANTS
-var clickPast;
-var clickNow;
-var clickDiff;
+
 var ChromeGesture = {
 
-    // If you think the Gesture detection sensitity too low, make these higher.
     MINIMUM_DELTAY : 10,			// tweak this - Minimum Y distance that needs to be travelled between 2 captures for a move to be detected
     MINIMUM_DELTAX : 10,			// tweak this - Same for X
     DELAY_BETWEEN_CAPTURES : 10, 	// tweak this - Time between captures
 	CLICK_TIMEOUT : 1000,			// tweak this - This is the timeout period between clicks (1000 = 1 second)
-
-    // Global variables
     LEFT_CLICK : 1,					// Number associated with Left Click
     RIGHT_CLICK : 3,				// Number associated with Right Click
     pastX : 0,
@@ -293,7 +270,7 @@ var ChromeGesture = {
     currentGesture : [],
     pastTime : new Date(),
 
-    // Functions
+	// Functions
     captureGesture : function(event) {
         
         var currentTime = new Date();
@@ -318,29 +295,25 @@ var ChromeGesture = {
             
             if( move != null ){
                 if( move != ChromeGesture.currentGesture[ChromeGesture.currentGesture.length - 1]){
-					showGesture(move); // Kryptyx was here...
+					showGesture(move);
 					clickPast = null;
                     ChromeGesture.currentGesture.push(move);
                 }
-            }
-            
+            }            
             ChromeGesture.pastTime = currentTime;
         }
     },
 	
     determineMove : function(deltaX, deltaY) {
-
         var absDeltaX = Math.abs(deltaX);
-        var absDeltaY = Math.abs(deltaY);		
-
-        if( absDeltaX < ChromeGesture.MINIMUM_DELTAX && absDeltaY < ChromeGesture.MINIMUM_DELTAY ) { 
+        var absDeltaY = Math.abs(deltaY);
+        if( absDeltaX < ChromeGesture.MINIMUM_DELTAX && absDeltaY < ChromeGesture.MINIMUM_DELTAY ){ 
 			return null;						
-        }
-		else {
-			document.oncontextmenu = function(){return false;} // Gesture detected, hide the context menu
+        } else {
+			document.oncontextmenu = function(){return false;} // [Kryptyx] Gesture detected, hide the context menu.
 		}
         
-        if( absDeltaY > absDeltaX ) {
+        if( absDeltaY > absDeltaX ){
             if( deltaY < 0 ){
                 return "up"
             } else {
@@ -355,13 +328,10 @@ var ChromeGesture = {
         }
     },
 
-    mouseButtonDown : function(event) {
-        if (event.which == ChromeGesture.RIGHT_CLICK){ 
-        
-        //TODO: Don't stop propagation if time between mouseup / mousedown is < CONSTANT
-        
-            document.oncontextmenu = function(){return true;} // Right-click detected, enable the context menu
-        
+    mouseButtonDown : function(event){
+        if (event.which == ChromeGesture.RIGHT_CLICK){        
+        // [Kyrax] TODO: Don't stop propagation if time between mouseup / mousedown is < CONSTANT        
+            document.oncontextmenu = function(){return true;} // [Kryptyx] Right-Click detected, enable the context menu.   
             ChromeGesture.pastX = event.clientX;
             ChromeGesture.pastY = event.clientY;
 			ChromeGesture.lfGesture = true;
@@ -369,22 +339,20 @@ var ChromeGesture = {
         }
     },
 
-    mouseButtonUp : function(event) { 
+    mouseButtonUp : function(event){ 
         if(event.which == ChromeGesture.RIGHT_CLICK){
             
             event.preventDefault();
             event.stopPropagation();			
 			
-			setTimeout(function(){hideGesture();}, 750);
-			
+			setTimeout(function(){hideGesture();}, 1000); // [Kryptyx] Right-Click released, hide the gesture visual.			
 			clickPast = null;
-        
-            warn("Gesture Executed : [" + ChromeGesture.currentGesture +"]");
 			
+            warn("Gesture Executed : [" + ChromeGesture.currentGesture +"]");			
             window.removeEventListener("mousemove", ChromeGesture.captureGesture);
             
             if(myGestures[ChromeGesture.currentGesture]){
-                // TODO: Support passing of parameters based on the origin of the gesture and such.
+                // [Kyrax] TODO: Support passing of parameters based on the origin of the gesture and such.
                 myGestures[ChromeGesture.currentGesture]();
             }
             
@@ -401,16 +369,15 @@ var ChromeGesture = {
 			{
 				showGesture("click");
 				ChromeGesture.currentGesture.push("click");
-				document.oncontextmenu = function(){return false;} // Gesture detected, hide the context menu
+				document.oncontextmenu = function(){return false;} // [Kryptyx] Gesture detected, hide the context menu.
 			}
 			clickPast = clickNow;
 		}
     },
     
     printLine : function() {
-        // TODO: Print stuff next to cursor, track cursor position, append a div with text in document.
+        // [Kyrax] TODO: Print stuff next to cursor, track cursor position, append a div with text in document.
     }
-
 }
 // Initialization
 window.addEventListener("mousedown", ChromeGesture.mouseButtonDown, false);
