@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>Chrome Gestures Options</title>
+<script type="text/javascript" src="sliderlib.js"></script>
+<link rel="stylesheet" type="text/css" href="slider.css" />
+<script type="text/javascript" src="savelib.js"></script>
+<script type="text/javascript">
+var newTabURL = "http://google.com";
+
+scroll_info["delta"] = new Array(5,30,1,10);
+scroll_info["captime"] = new Array(10,1000,10,10);
+scroll_info["clicktimeout"] = new Array(0.5,3,0.5,1); //*1000 when transferred back
+
+function init(){
+	newTabURL = loadData("newTabURL","http://google.com");
+	scroll_info["delta"][3] = loadData("MINIMUM_DELTA",10)*1;
+	scroll_info["captime"][3] = loadData("DELAY_BETWEEN_CAPTURES",10)*1;
+	scroll_info["clicktimeout"][3] = loadData("CLICK_TIMEOUT",1)*1;
+	if(window.opener.CHROMEGESTURES_loadData)tellData();
+	else{
+	document.getElementById("ntpurl").value = newTabURL;
+	initSliding()
+}}
+
+function saveText(){
+	newTabURL = document.getElementById("ntpurl").value;
+	saveData("newTabURL",newTabURL);
+	tellData();
+}
+
+function slidersUpdated(){
+	saveData("MINIMUM_DELTA",scroll_info["delta"][3]);
+	saveData("DELAY_BETWEEN_CAPTURES",scroll_info["captime"][3]);
+	saveData("CLICK_TIMEOUT",scroll_info["clicktimeout"][3]);
+	tellData();
+}
+
+function tellData(){
+	window.opener.CHROMEGESTURES_setData(newTabURL,scroll_info["delta"][3],
+		scroll_info["captime"][3],scroll_info["clicktimeout"][3]*1000);
+}
+</script>
+<style type="text/css">
+.sec { /* Section */
+	margin-bottom: 15px;
+}
+.bs { /* Bordered Section */
+	outline:#000000 solid 2px;
+	margin-bottom: 10px;
+	padding-bottom: 5px;
+}
+
+.bs > div {
+	margin-left: 10px;
+}
+
+.bs > div.sliderbar {
+	margin-left: 20px;
+}
+</style>
+</head>
+<body onLoad="init()">
+<div class="textoption" class="sec">Your new tab page URL: <input type="text" id="ntpurl" onKeyUp="saveText()" /></div>
+<div class="bs"><div>Movement capture sensitivity:</div>
+<div class="sliderbar"><span class="slider" id="delta"></span></div></div>
+<div class="bs"><div>Time between movement captures (miliseconds):</div>
+<div class="sliderbar"><span class="slider" id="captime"></span></div></div>
+<div class="bs"><div>Timeout between clicks (seconds):</div>
+<div class="sliderbar"><span class="slider" id="clicktimeout"></span></div></div>
+<div style="width:100%; text-align:right"><input type="button" value="Close" onClick="window.close()"></div>
+</body>
+</html>
