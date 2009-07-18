@@ -1,0 +1,13 @@
+{
+   "background_page": "gestures_bgp.html",
+   "content_scripts": [ {
+      "js": [ "ChromeGestures.user.js" ],
+	  "css": [ "ChromeGestures.css" ],
+      "matches": [ "chrome://*/*", "http://*/*", "https://*/*" ],
+      "run_at": "document_start"
+   } ],
+   "description": "Execute commands with a simple gesture.",
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCVYmxWQ6B6L9B/wn1cIkobD6nbXqArQVM1B9wi6DLcY57dW6kqn14Qos/ejEdts3F59eLYa8nhGwx584IjsoIcAH50HyRqpQ0awe+84jFqjWRnO35FojZBOxHkR0dJvbCcQhxoWnv8MZDBxdMelHSyKVlrbIwJ0CyT8SuxVnteJQIDAQAB",
+   "name": "ChromeGestures",
+   "version": "1.0.6"
+}
