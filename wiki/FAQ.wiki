@@ -21,13 +21,13 @@ This probably has to do with that page blocking the window.close() function, or 
 Even though it looks like a corner, you can make the gesture as a curve as well. Reload is simply a clockwise, circular motion that starts and ends at the top of the circle.
 
 *How do I add my own gesture?*<br/>
-First and foremost, you _must_ know JavaScript to add the action for the gesture. If you do not, you can ask someone for help in writing the action. See the [GesturesTutorial Gestures tutorial] for more info.
+First and foremost, you _must_ know `JavaScript` to add the action for the gesture. If you do not, you can ask someone for help in writing the action. See the [GesturesTutorial Gestures tutorial] for more info.
 
-*How do I JavaScript?*<br/>
+*How do I `JavaScript`?*<br/>
 [http://www.google.com/search?q=javascript+beginner+tutorial Google it.]
 
 *My options aren't working!! Is this a bug?*<br/>
-No not really. We're limited on how we can load information right now, and how we have to do it is by creating and communicating with a pop-up. Some people don't like this, because they get a pop-up blocked notification, so loading options automatically has been disabled by default. If you would like your options to be loaded, open *ChromeGestures.user.js* and change
+No not really. We're limited on how we can load information right now, and how we have to do it is by creating and communicating with a pop-up. Some people don't like this, because they get a pop-up blocked notification, so loading options automatically has been disabled by default. If you would like your options to be loaded, open *`ChromeGestures.user.js`* and change
 {{{
 var popupLoader = false;
 }}}
