@@ -20,7 +20,7 @@ This probably has to do with that page blocking the window.close() function, or 
 *I'm looking at the help file and gestures like reload and such are so square.. it seems difficult to make.*<br/>
 Even though it looks like a corner, you can make the gesture as a curve as well. Reload is simply a clockwise, circular motion that starts and ends at the top of the circle.
 
-*How do I add my own gesture?*
+*How do I add my own gesture?*<br/>
 First and foremost, you _must_ know JavaScript to add the action for the gesture. If you do not, you can ask someone for help in writing the action. See the [GesturesTutorial Gestures tutorial] for more info.
 
 *How do I JavaScript?*<br/>
@@ -37,4 +37,4 @@ var popupLoader = true;
 }}}
 
 *Okay I enabled loading, but it's blocking the popup..are my options still being loaded?*<br/>
-Yes they are. If you'd like to make sure, use the gesture [left, click, right] to alert the current value of your mouse sensitivity.
+Yes they are. If you'd like to make sure, use the gesture `[`left, click, right`]` to alert the current value of your mouse sensitivity.
