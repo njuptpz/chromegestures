@@ -1,4 +1,5 @@
 #summary Tutorial for making Gestures
+#labels Featured
 
 = How to make the Gesture =
 Firstly find the GESTURES section of the document, it's at the top. This is where you add the actual movements and such that make up your gesture. Think up a simple name for your gesture, you'll be using this in each step. In this document, I will be assuming the name you've chosen is *your*.
