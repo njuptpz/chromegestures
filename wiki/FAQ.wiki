@@ -1,4 +1,5 @@
 #summary Quick FAQ page.
+#labels Featured
 
 This is a compendium of common questions we receive in the Chrome Gestures thread on [http://www.chromeplugins.org/google/ Chrome Plugins].
 
