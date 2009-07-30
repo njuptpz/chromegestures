@@ -313,15 +313,17 @@ function showGesture(move){
 }
 
 function hideGesture(){
-        if(alpha>0){
-                alpha-=.1;
-                document.getElementById("ChromeGestureBox").style.opacity=alpha;
-                setTimeout(function(){hideGesture();},40); 
-        } else {
-                alpha=1.0;
-                document.getElementById("ChromeGestureBox").style.opacity=alpha;
-                document.getElementById("ChromeGestureBox").className="gesture_hide";
-        }
+		if (document.getElementById("ChromeGestureBox")){
+			if(alpha>0){
+					alpha-=.1;
+					document.getElementById("ChromeGestureBox").style.opacity=alpha;
+					setTimeout(function(){hideGesture();},40); 
+			} else {
+					alpha=1.0;
+					document.getElementById("ChromeGestureBox").style.opacity=alpha;
+					document.getElementById("ChromeGestureBox").className="gesture_hide";
+			}
+		}
 }
 
 // CONSTANTS
@@ -330,11 +332,11 @@ var ChromeGesture = {
 
     MINIMUM_DELTAY : 10,                        // tweak this - Minimum Y distance that needs to be travelled between 2 captures for a move to be detected
     MINIMUM_DELTAX : 10,                        // tweak this - Same for X
-    DELAY_BETWEEN_CAPTURES : 10,        // tweak this - Time between captures
-        CLICK_TIMEOUT : 1000,                   // tweak this - This is the timeout period between clicks (1000 = 1 second)
+    DELAY_BETWEEN_CAPTURES : 10,                // tweak this - Time between captures
+    CLICK_TIMEOUT : 1000,                       // tweak this - This is the timeout period between clicks (1000 = 1 second)
         
         //Globals
-    LEFT_CLICK : 1,                                     // Number associated with Left Click
+    LEFT_CLICK : 1,                             // Number associated with Left Click
     RIGHT_CLICK : 3,                            // Number associated with Right Click
     pastX : 0,
     pastY : 0,
