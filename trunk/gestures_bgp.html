@@ -2,15 +2,67 @@
 <head>
 <script type="text/javascript" src="savelib.js"></script>
 <script type="text/javascript">
-/* [Waha] This is what we'll use when communication is back in order.
+var UP=" up",DOWN=" down",RIGHT=" right",LEFT=" left",CLICK=" click";
+var myGestures = new Array();
+
+function addGesture(gesture){
+	var g = gesture.gesture;
+	if(typeof(g) == "undefined" || typeof(gesture.action) == "undefined"){
+		console.warn("Both gesture and action fields are required for a gesture.");
+		return;
+	}
+	if(typeof(g) == "string")g = new Array(g);
+	for(var i in g){
+		myGestures[g[i]] = gesture.action;
+	}
+	if(typeof(gesture.help) != "undefined" && typeof(gesture.start) != "undefined" &&
+		typeof(gesture.offsets) != "undefined"){
+		registerForHelp(g[0],gesture.help,gesture.start,gesture.offsets);
+	}
+}
+
+var gesturesHelp = new Array();
+function registerForHelp(gestures,desc,start,offsets){
+	gestures = gestures.substr(1).split(" ");
+	if(offsets.length != gestures.length){
+		console.warn("Error registering help for \""+gestures.toString()+"\": Not enough offsets given.");
+		return;
+	}
+	var i = gesturesHelp.length;
+	gesturesHelp[i] = new Object();
+	gesturesHelp[i].d = desc;
+	gesturesHelp[i].g = gestures;
+	gesturesHelp[i].x = start[0];
+	gesturesHelp[i].y = start[1];
+	gesturesHelp[i].pnts = new Array();
+	for(var j=0;j<gestures.length;j++){
+		if(gestures[j] == "click")gesturesHelp[i].pnts[j] = new Array("c",offsets[j]);
+		else{
+			if(gestures[j] == "left")start[0] -= offsets[j];
+			else if(gestures[j] == "right")start[0] += offsets[j];
+			else if(gestures[j] == "up")start[1] -= offsets[j];
+			else if(gestures[j] == "down")start[1] += offsets[j];
+			gesturesHelp[i].pnts[j] = new Array(start[0],start[1]);
+		}
+	}
+}
+
+newTabURL = loadData("newTabURL","http://google.com");
 function listen(p){
-	p.postMessage(new Array(loadData("newTabURL","http://google.com"),
-		loadData("MINIMUM_DELTA",10)*1,
+	p.postMessage(new Array("load",loadData("MINIMUM_DELTA",10)*1,
 		loadData("DELAY_BETWEEN_CAPTURES",10)*1,
 		loadData("CLICK_TIMEOUT",1)*1));
+	p.onMessage.addListener(function(msg){
+		if(myGestures[msg]){// [Kyrax] TODO: Support passing of parameters based on the origin of the gesture and such.
+			ev = myGestures[msg]();
+			if(typeof(ev) == "string")p.postMessage(new Array("eval",ev));
+		}
+	});
 }
-chrome.self.onConnect.addListener(listen); */
+chrome.self.onConnect.addListener(listen);
 </script>
+<script type="text/javascript" src="defaultgestures.js"></script>
+<!-- ADD USER GESTURE INCLUDES HERE -->
 </head>
 <body>
 </body>
